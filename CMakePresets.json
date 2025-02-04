@@ -1,0 +1,47 @@
+{
+    "version": 6,
+    "configurePresets": [
+      {
+        "name": "debug",
+        "displayName": "Debug",
+        "generator": "Ninja",
+        "binaryDir": "build",
+        "cacheVariables": {
+          "CMAKE_BUILD_TYPE": "Debug",
+          "CMAKE_C_COMPILER": "clang",
+          "CMAKE_CXX_COMPILER": "clang++",
+          "CMAKE_CXX_FLAGS": "-stdlib=libc++ -Wall -Werror",
+          "CMAKE_EXE_LINKER_FLAGS": "-stdlib=libc++",
+          "CMAKE_SHARED_LINKER_FLAGS": "-stdlib=libc++"
+        }
+      },
+      {
+        "name": "release",
+        "displayName": "Release",
+        "generator": "Ninja",
+        "binaryDir": "build",
+        "cacheVariables": {
+          "CMAKE_BUILD_TYPE": "Release",
+          "CMAKE_C_COMPILER": "clang",
+          "CMAKE_CXX_COMPILER": "clang++",
+          "CMAKE_CXX_FLAGS": "-stdlib=libc++ -Wall -Werror",
+          "CMAKE_EXE_LINKER_FLAGS": "-stdlib=libc++",
+          "CMAKE_SHARED_LINKER_FLAGS": "-stdlib=libc++"
+        }
+      },
+      {
+        "name": "rel-with-deb-info",
+        "displayName": "Release with Debug information",
+        "generator": "Ninja",
+        "binaryDir": "build",
+        "cacheVariables": {
+          "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+          "CMAKE_C_COMPILER": "clang",
+          "CMAKE_CXX_COMPILER": "clang++",
+          "CMAKE_CXX_FLAGS": "-stdlib=libc++ -Wall -Werror",
+          "CMAKE_EXE_LINKER_FLAGS": "-stdlib=libc++",
+          "CMAKE_SHARED_LINKER_FLAGS": "-stdlib=libc++"
+        }
+      }
+    ]
+  }
