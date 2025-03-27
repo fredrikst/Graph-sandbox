@@ -1,10 +1,14 @@
 module;
 
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp>
 
-export module World:Square;
+#include <string>
+#include <iostream>
 
-export class Square final {
+export module World:Tile;
+
+export class Tile final {
 public:
     enum class State {
         Empty,
@@ -15,15 +19,14 @@ public:
         Goal
     };
 
-    Square() {}
+    Tile() {}
 
-    Square(unsigned int row, unsigned int col, float posX, float posY, float sizeX, float sizeY, State state)
-    : idRow_(row)
-    , idCol_(col)
+    Tile(unsigned int row, unsigned int col, float posX, float posY, float sizeX, float sizeY, State state)
+    : matrixPos_(col, row)
     , currentState_(state) {
 
         rectangle_.setOutlineColor(sf::Color::Black);
-        rectangle_.setOutlineThickness(-5.f);
+        rectangle_.setOutlineThickness(-2.f);
         rectangle_.setOrigin({sizeX/2, sizeY/2});
         rectangle_.setSize({sizeX, sizeY});
         rectangle_.setPosition({posX, posY});
@@ -40,39 +43,15 @@ public:
         else {
             rectangle_.setFillColor(sf::Color::Red);
         }
-
-        if (state == State::Start || state == State::Goal) {
-            auto varray = sf::VertexArray(sf::PrimitiveType::Triangles, 3);
-            varray[0].position = {posX-10, posY+10};
-            varray[0].color = sf::Color::Black;
-            varray[1].position = {posX, posY-10};
-            varray[1].color = sf::Color::Black;
-            varray[2].position = {posX+10, posY+10};
-            varray[2].color = sf::Color::Black;
-            startOrGoal_ = varray;
-        }
     }
 
-    bool operator==(Square& other) {
-        return this->idRow_ == other.idRow_ && this->idCol_ == other.idCol_;
+    bool operator==(const Tile& other) const {
+        return this->matrixPos_ == other.matrixPos_;
     }
 
     void draw(sf::RenderWindow& window) {
 
         window.draw(rectangle_);
-
-        if (startOrGoal_.has_value()) {
-            window.draw(startOrGoal_.value());
-        }
-    }
-
-    void setID(int row, int col) {
-        idRow_ = row;
-        idCol_ = col;
-    }
-
-    void setSize(float x, float y) {
-        rectangle_.setSize({x, y});
     }
 
     void setState(State state) {
@@ -92,11 +71,30 @@ public:
         }
     }
 
+    Tile::State getState() const {
+        return currentState_;
+    }
+
+    sf::Vector2i getPosition() const {
+        return sf::Vector2i(rectangle_.getPosition());
+    }
+
+    sf::Vector2i getMatrixPosition() const {
+        return matrixPos_;
+    }
+
 private:
     sf::RectangleShape rectangle_;
-    std::optional<sf::VertexArray> startOrGoal_;
 
-    unsigned int idRow_, idCol_;
+    sf::Vector2i matrixPos_;
 
     State currentState_;
+};
+
+export struct TileHash
+{
+    std::size_t operator()(const Tile& tile) const
+    {
+        return std::rotl(std::hash<int>{}(tile.getMatrixPosition().x), 1) ^ std::hash<int>{}(tile.getMatrixPosition().y);
+    }
 };

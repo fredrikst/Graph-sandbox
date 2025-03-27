@@ -18,13 +18,20 @@ FetchContent_Declare(SFML
     SYSTEM)
 FetchContent_MakeAvailable(SFML)
 
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+)
+FetchContent_MakeAvailable(googletest)
+
 add_executable(main src/main.cpp)
 
 target_sources(main
     PUBLIC
     FILE_SET my_modules TYPE CXX_MODULES FILES
     src/World.cppm
-    src/Square.cppm
+    src/Tile.cppm
+    src/NavGraph.cppm
 )
 
 target_link_libraries(main PRIVATE SFML::Graphics)
