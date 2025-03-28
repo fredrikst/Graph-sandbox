@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 
 import World;
-import NavGraph;
+import NavGraphRenderer;
 
 int main()
 {
@@ -11,6 +11,7 @@ int main()
     World world({0, 0}, {1, 8}, 10, 14);
     NavGraph navGraph;
     navGraph.create(world);
+    NavGraphRenderer navGraphRenderer(navGraph);
 
     while (window.isOpen())
     {
@@ -25,7 +26,7 @@ int main()
 
         window.clear();
         world.draw(window);
-        navGraph.draw(window);
+        navGraphRenderer.draw(window);
         window.display();
     }
 }
