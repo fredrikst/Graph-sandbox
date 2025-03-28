@@ -1,7 +1,11 @@
 #include <SFML/Graphics.hpp>
 
+#include <future>
+#include <iostream>
+
 import World;
 import NavGraphRenderer;
+import BreadthFirst;
 
 int main()
 {
@@ -12,6 +16,14 @@ int main()
     NavGraph navGraph;
     navGraph.create(world);
     NavGraphRenderer navGraphRenderer(navGraph);
+
+    BreadthFirst breadthFirst(navGraph, navGraphRenderer);
+
+    auto searchThread = std::async(std::launch::async, &BreadthFirst::search, breadthFirst, 
+    [](Node* node) -> bool
+    {
+        return node->getState() == Node::State::Goal;
+    });
 
     while (window.isOpen())
     {
@@ -29,4 +41,6 @@ int main()
         navGraphRenderer.draw(window);
         window.display();
     }
+
+    searchThread.wait();
 }

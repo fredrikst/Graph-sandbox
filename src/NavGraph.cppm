@@ -105,6 +105,10 @@ public:
         return startPosition_;
     }
 
+    Node* getStartNode() const {
+        return getNode(startPosition_);
+    }
+
 private:
     Node* createNodeIfNotExists(const Tile& tile) {
         
@@ -140,7 +144,7 @@ private:
         return const_cast<Node*>(&(*insertedNode.first));
     }
 
-    Node* getNode(const sf::Vector2i& position) {
+    Node* getNode(const sf::Vector2i& position) const {
         Node tempNode(position, Node::State::Empty);
 
         auto itFound = nodes_.find(tempNode);

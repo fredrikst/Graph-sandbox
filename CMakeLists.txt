@@ -33,6 +33,7 @@ target_sources(main
     src/Tile.cppm
     src/NavGraph.cppm
     src/NavGraphRenderer.cppm
+    src/BreadthFirst.cppm
 )
 
 target_link_libraries(main PRIVATE SFML::Graphics)
