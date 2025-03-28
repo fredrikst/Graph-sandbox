@@ -1,1 +1,1 @@
-# Graph-sandbox
+Simple sandbox application for my own learning and use when it comes to graph algorithms.
